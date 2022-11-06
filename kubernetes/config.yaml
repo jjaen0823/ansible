@@ -1,0 +1,48 @@
+masters:
+  - name: master
+    box: generic/ubuntu1804
+    hostname: master
+    ip: 192.168.10.100
+    memory: 2048
+    cpu: 2
+  # - name: master-1
+  #   box: generic/ubuntu1804
+  #   hostname: master-1
+  #   ip: 192.168.10.101
+  #   memory: 1504
+  #   cpu: 1
+  # - name: master-2
+  #   box: generic/ubuntu1804
+  #   hostname: master-2
+  #   ip: 192.168.10.102
+  #   memory: 1504
+  #   cpu: 1
+  # - name: master-3
+  #   box: generic/ubuntu1804
+  #   hostname: master-3
+  #   ip: 192.168.10.103
+  #   memory: 1504
+  #   cpu: 1
+
+workers:
+  - name: worker-1
+    box: generic/ubuntu1804
+    hostname: worker-1
+    ip: 192.168.10.110
+    memory: 1280
+    cpu: 1
+
+  - name: worker-2
+    box: generic/ubuntu1804
+    hostname: worker-2
+    ip: 192.168.10.120
+    memory: 1280
+    cpu: 1
+
+# bootstrap:
+#   - name: bootstrap
+#     box: generic/ubuntu1804
+#     hostname: bootstrap
+#     ip: 192.168.10.10
+#     memory: 1026
+#     cpu: 1
