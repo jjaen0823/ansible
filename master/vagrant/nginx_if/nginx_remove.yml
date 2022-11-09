@@ -1,0 +1,15 @@
+---
+  - name: Remove nginx on linux
+    hosts: all
+    gather_facts: no
+    become: yes  # root
+
+    tasks:
+      - name: delete html file
+        shell: "rm -f /var/www/html/index.html"
+      - name: "remove nginx web server"
+        apt: pkg=nginx state=absent autoremove=yes
+      - name: "stop nginx services"
+        service:
+            name: nginx
+            state: stopped

@@ -1,0 +1,13 @@
+---
+  - name: Setup for nfs server   # NFS : Network File System
+    hosts: server #hosts: CentOS: Ubuntu <= host 추가
+
+    tasks:
+      - include_tasks: nfs_server.yml
+
+  - name: Setup for nfs client
+    hosts: client
+
+    tasks:
+      - include_tasks: nfs_client.yml
+

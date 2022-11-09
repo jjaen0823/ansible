@@ -1,0 +1,12 @@
+---
+- name: Create hosts file by template
+  hosts: nodes
+  become: yes
+  vars:
+    nu: "{{ groups.nodes | count }}"  # nodes 그룹의 host 개수
+
+  tasks:
+  - name: print hosts file
+    template:
+      src: hosts.j2
+      dest: /home/vagrant/hosts

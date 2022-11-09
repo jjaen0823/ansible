@@ -1,0 +1,9 @@
+---
+  - name: Setup Ubuntu Timezone
+    hosts: all
+    gather_facts: no
+    become: yes
+
+    tasks:
+      - name: set timezone to Asia/Seoul
+        timezone: name=Asia/Seoul

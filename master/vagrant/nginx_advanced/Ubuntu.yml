@@ -1,0 +1,8 @@
+- name: install nginx web server
+  action: "{{ ansible_pkg_mgr }} name=nginx state=present update_cache=yes"
+
+- name: upload default index.html for web server
+  get_url: url=https://www.nginx.com/ dest=/var/www/html/index.html mode=0644 validate_certs=no  # ssl 보안 설정을 사용하지 않고 다운로드
+
+- name: start nginx web server
+  service: name=nginx state=started 

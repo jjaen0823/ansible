@@ -1,0 +1,6 @@
+---
+nu: "{{ groups.nodes | count }}"  # nodes 그룹의 host 개수
+idx: "{{ groups.nodes.index(inventory_hostname)+1 | int }}"  # nodes 그룹의 hostname에 따른 index(0~N-1)
+linux_name: "{{ 'CentOS' if ansible_distribution == 'CentOS'
+                 else 'Ubuntu' if ansible_distribution == 'Ubuntu'
+                 else 'Just Linux' }}"

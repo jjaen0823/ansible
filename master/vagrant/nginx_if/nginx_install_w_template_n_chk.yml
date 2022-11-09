@@ -1,0 +1,26 @@
+---
+- name: Install nginx on the nodes
+  hosts: server
+  become: yes
+  vars:
+    nu: "{{ groups.nodes | count }}"  # nodes 그룹의 host 개수
+    idx: "{{ groups.nodes.index(inventory_hostname)+1 | int }}"  # nodes 그룹의 hostname에 따른 index(0~N-1)
+
+  tasks:
+  - name: nginx for any Linux
+    include_tasks: "{{ linux_name }}.yml"
+
+  - name: create web page for each node
+    template: 
+      src: index.j2
+      dest: /var/www/html/index.html
+      mode: 0644
+      backup: yes
+  
+  - name: check nginx web server
+    debug: msg="{{ lookup('template', 'ins_chk.j2').split('\n') }}"
+
+  handlers:
+    # notify에서 적용된 name과 같아야 함
+  - name: restart nginx web server  
+    service: name=nginx state=restarted
