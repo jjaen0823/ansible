@@ -1,0 +1,40 @@
+# stateful에서 사용할 service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-statefulset-svc
+  labels:
+    app: nginx-svc
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx-svc
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web  # statefulset name
+spec:
+#  podManagementPolicy: Parallel         # pod 실행, 삭제 순서 없앨 수 있음 (default=OrderedReady)
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: nginx-statefulset
+  serviceName: "nginx-svc"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx-statefulset
+    spec:
+      terminationGracePeriodSeconds: 10  # 실행 중인 프로세스를 종료할 때 10초 후 종료 
+      containers:
+      - name: nginx-statefulset
+        image: nginx
+        ports:
+        - containerPort: 80
+          name: web

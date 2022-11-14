@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/5 * * * *"
+  startingDeadlineSeconds: 600  # 지정된 시간에 cronjob이 실행되지 못했을 때, 해당 시간까지 지나면 cronjob이 실행되지 않도록 하는 설정
+  concurrencyPolicy: Forbid  # cronjob이 실행하는 job의 동시성 관리 (default=Allow : CronJob이 여러 개의 Job을 동시에 수행하도록 함), (Replace : 대체)
+  successfulJobsHistoryLimit: 0  # (default=3)
+  failedfulJobsHistoryLimit: 0   # (default=1
+)
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure

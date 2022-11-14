@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-els
+  namespace: kube-system      # 로그 수집기는 k8s 관리용 pod나 설정에 해당하므로 kube-system namespace로 지정 
+  labels:
+    k8s-app: fluentd-logging  # 해당 object를 식별하는 label로 key=k8s-app, value=fluentd-logging으로 설정
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-els
+  updateStrategy:
+    type: RollingUpdate       # Daemonset의 pod를 update 하는 방법은 OnDelete, RollingUpdate 중 하나를 선택할 수 있음
+    rollingUpdate:
+      maxUnavailable: 2       # 한 번에 교체하는 pod 개수 (default=1)
+      # minReadySeconds:      # 새로 실행하는 pod가 Ready 상태가 되는 최소 시간 (default=0)
+  template: 
+    metadata:
+      labels:
+        name: fluentd-els
+    spec:
+      containers:
+      - name: fluentd-els
+        image: fluent/fluentd-kubernetes-daemonset:elasticsearch
+        env:
+        - name: TEST_ENV
+          value: test-value
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
